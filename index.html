@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEMARAK TURNAMEN VOLI TINGKAT SD/MI SE-KECAMATAN AMALI-SOPPENG - MTsS YAPIT TARETTA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        .header {
+            background-color: #004d40;
+            color: white;
+            padding: 10px 0;
+            border-bottom: 4px solid #ffc107;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        /* LOGO LEBIH KECIL */
+        .logo {
+            height: 50px;
+            width: 50px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-text h1 {
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        
+        .logo-text h2 {
+            font-size: 14px;
+            font-weight: 400;
+            margin-top: 3px;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .social-media-header {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .social-media-header a {
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+        }
+        
+        .social-media-header a:hover {
+            transform: translateY(-2px) scale(1.1);
+        }
+        
+        .social-media-header .fa-facebook-f:hover {
+            background-color: #1877F2;
+            color: white;
+        }
+        
+        .social-media-header .fa-twitter:hover {
+            background-color: #1DA1F2;
+            color: white;
+        }
+        
+        .social-media-header .fa-instagram:hover {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+            color: white;
+        }
+        
+        .social-media-header .fa-youtube:hover {
+            background-color: #FF0000;
+            color: white;
+        }
+        
+        .visitor-counter {
+            background-color: #00796b;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Navigation */
+        .top-nav {
+            background-color: #00796b;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            padding: 12px 15px;
+        }
+        
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        
+        .nav-menu li a:hover {
+            color: #ffc107;
+        }
+        
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-box {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            width: 180px;
+            font-size: 14px;
+        }
+        
+        .search-btn {
+            background-color: #ffc107;
+            color: #333;
+            border: none;
+            padding: 6px 12px;
+            margin-left: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        /* Survey Banner */
+        .survey-banner {
+            background-color: #e8f5e9;
+            padding: 12px 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .survey-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .survey-text {
+            font-size: 15px;
+            color: #004d40;
+        }
+        
+        .survey-btn {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .survey-btn:hover {
+            background-color: #f57c00;
+        }
+        
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+        
+        /* Artikel Berita */
+        .article-header {
+            margin-bottom: 25px;
+        }
+        
+        .article-title {
+            font-size: 26px;
+            color: #004d40;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        
+        .article-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+            color: #666;
+            font-size: 13px;
+        }
+        
+        .article-author {
+            margin-right: 15px;
+            font-weight: 500;
+        }
+        
+        .article-date {
+            color: #888;
+        }
+        
+        .article-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 35px;
+        }
+        
+        /* Gambar dalam artikel */
+        .article-image {
+            width: 100%;
+            height: auto;
+            min-height: 250px;
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .article-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 77, 64, 0.8);
+            color: white;
+            padding: 8px 12px;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .article-content p {
+            margin-bottom: 18px;
+            text-align: justify;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .article-content p:first-of-type {
+            font-weight: 500;
+            color: #004d40;
+        }
+        
+        /* Footer dengan Logo */
+        .footer {
+            background-color: #004d40;
+            color: white;
+            margin-top: 45px;
+            padding: 35px 0 15px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+        
+        .footer-info {
+            flex: 2;
+        }
+        
+        /* Logo di footer title */
+        .footer-title-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+        
+        .footer-logo {
+            height: 50px;
+            width: 50px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            padding: 5px;
+        }
+        
+        .footer-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .footer-title {
+            font-size: 18px;
+            color: #ffc107;
+            margin: 0;
+        }
+        
+        .footer-address {
+            line-height: 1.7;
+            margin-bottom: 18px;
+            font-size: 14px;
+            padding-left: 65px; /* Memberi space untuk logo */
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 12px;
+            padding-left: 65px; /* Memberi space untuk logo */
+        }
+        
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #00796b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .social-icon:hover {
+            transform: translateY(-2px) scale(1.1);
+        }
+        
+        .social-icon.fb:hover {
+            background-color: #1877F2;
+        }
+        
+        .social-icon.tw:hover {
+            background-color: #1DA1F2;
+        }
+        
+        .social-icon.ig:hover {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+        }
+        
+        .social-icon.yt:hover {
+            background-color: #FF0000;
+        }
+        
+        .footer-stats {
+            flex: 1;
+        }
+        
+        .footer-stats-title {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #ffc107;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .stat-box {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-3px);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffc107;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #b2dfdb;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 18px;
+            border-top: 1px solid #00796b;
+            font-size: 13px;
+            color: #b2dfdb;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .header-right {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-end;
+            }
+            
+            .social-media-header {
+                order: 2;
+            }
+            
+            .visitor-counter {
+                order: 1;
+                margin-left: 0;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 25px;
+            }
+            
+            .header-container {
+                flex-wrap: wrap;
+                justify-content: center;
+                text-align: center;
+                gap: 12px;
+            }
+            
+            .header-right {
+                width: 100%;
+                justify-content: center;
+                margin-top: 8px;
+            }
+            
+            .footer-address, .social-icons {
+                padding-left: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .survey-content {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .search-container {
+                width: 100%;
+                justify-content: center;
+                margin-top: 8px;
+            }
+            
+            .search-box {
+                width: 65%;
+            }
+            
+            .article-title {
+                font-size: 22px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .social-media-header {
+                justify-content: center;
+            }
+            
+            .footer-title-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .footer-logo {
+                height: 60px;
+                width: 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .article-author {
+                margin-bottom: 4px;
+            }
+            
+            .header-right {
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+            }
+            
+            .social-media-header {
+                gap: 4px;
+            }
+            
+            .social-media-header a {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
+            
+            .visitor-counter {
+                font-size: 11px;
+                padding: 3px 6px;
+            }
+            
+            .logo {
+                height: 45px;
+                width: 45px;
+            }
+            
+            .logo-text h1 {
+                font-size: 14px;
+            }
+            
+            .logo-text h2 {
+                font-size: 12px;
+            }
+            
+            .footer-logo {
+                height: 45px;
+                width: 45px;
+            }
+        }
+        
+        /* Tambahan untuk gambar artikel agar lebih proporsional */
+        .article-image.full-width {
+            min-height: 300px;
+        }
+        
+        @media (max-width: 768px) {
+            .article-image.full-width {
+                min-height: 200px;
+            }
+        }
+        
+        /* Hapus section berita lainnya */
+        .other-news {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+           <div class="logo-container">
+             <div class="logo">
+             <img src="LOGO.jpeg" alt="Logo MTs YAPIT Taretta">
+          </div>
+          <div class="logo-text">
+           <h1>MADRASAH TSANAWIYAH SWASTA YAPIT TARETTA</h1>
+           <h2>PROVINSI SULAWESI SELATAN</h2>
+          </div>
+       </div>
+
+            <div class="header-right">
+                <!-- Sosial Media di Kanan Atas -->
+                <div class="social-media-header">
+                    <a href="https://facebook.com/mtsyapit" target="_blank" title="Facebook MTsS Yapit Taretta" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://twitter.com/mtsyapit" target="_blank" title="Twitter MTsS Yapit Taretta" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://instagram.com/mtsyapit" target="_blank" title="Instagram MTsS Yapit Taretta" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://youtube.com/mtsyapit" target="_blank" title="YouTube MTsS Yapit Taretta" aria-label="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+                
+                <div class="visitor-counter">
+                    <i class="fas fa-users"></i> <span id="header-visitor">16,376,431</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <ul class="nav-menu">
+                <li><a href="#">HOME</a></li>
+                <li><a href="#">PROFIL</a></li>
+                <li><a href="#">UNIT KERJA</a></li>
+                <li><a href="#">BERITA</a></li>
+                <li><a href="#">SISWA</a></li>
+                <li><a href="#">TENDIK</a></li>
+                <li><a href="#">PENGADUAN</a></li>
+            </ul>
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Survey Banner -->
+    <div class="survey-banner">
+        <div class="survey-content">
+            <div class="survey-text">
+                Ayoo, isi survey kepuasan layanan dan performa kerja MTsS Yapit Taretta Provinsi Sulawesi Selatan
+            </div>
+            <button class="survey-btn">Isi Survey</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Artikel Utama -->
+        <article>
+            <div class="article-header">
+                <h1 class="article-title"> SEMARAK TURNAMEN VOLI TINGKAT SD/MI SE-KECAMATAN AMALI-SOPPENG : Kegiatan Sportifitas ini Dihadiri Oleh DPRD Kabupaten Bone  </h1>
+                <div class="article-meta">
+                    <div class="article-author"> Divisi Humas | Tiansi</div>
+                    <div class="article-date"> Selasa, 16 Desember 2025</div>
+                </div>
+            </div>
+            
+            <!-- Gambar Utama -->
+             <div class="article-image full-width">
+                <img src="SPANDUK.jpeg" alt="Turnamen Voli Tingkat SD/MI Se-Kecamatan Amali-Soppeng">
+                <div class="image-caption">Turnamen Voli Tingkat SD/MI Se-Kecamatan Amali-Soppeng di MTsS Yapit Taretta berlangsung meriah dengan berbagai Sponsor Ternama</div> 
+            </div>
+        
+            
+            <div class="article-content">
+                <!-- Paragraf 1 -->
+                <p> MTsS YAPIT TARETTA berhasil menggelar Turnamen Voli Tingkat SD/MI Se-Kecamatan Amali-Soppeng berlangsung meriah dan penuh semangat. Kegiatan yang bertema "Sportifitas sebagai Sarana Silaturahmi" ini dilaksanakan pada Minggu-Selasa/14-16 Desember 2025 pada pukul 07.30 WITA hingga selesai di lingkungan madrasah. Turnamen ini diselenggarakan oleh Kepala Madrasah Mustafa S.Ag, M.Pd dan Ketua Panitia Anugrah S.Pd disertai dengan berbagai Sponsor yang memiliki kontribusi sangat besar (16/12/2025).</p>
+                
+                <!-- Gambar 1 (setelah paragraf 1) -->
+                <div class="article-image">
+                   <img src="DPRD.jpeg" alt="Anggota DPRD Kabupaten Bone, Bapak Mulham Natsir, S.E. memberikan dukungan">
+                   <div class="image-caption">Anggota DPRD Kabupaten Bone, Bapak Mulham Natsir, S.E. memberikan dukungan pada Turnamen Voli</div> 
+                </div>
+                
+                <!-- Paragraf 2 -->
+                <p> Keberhasilan penyelenggaraan turnamen ini juga tak lepas dari dukungan dan kehadiran tokoh penting daerah. Acara ini dihadiri secara langsung oleh Ketua PGRI Kecamatan Amali yang memberikan apresiasi tinggi atas komitmen MTsS Yapit Taretta dalam memajukan olahraga pendidikan. Selain itu, turut hadir anggota DPRD Kabupaten Bone, Bapak Mulham Natsir, S.E., yang turut memberikan motivasi dan dukungan nyata berupa sumbangan (Alhamdulillah) bagi kelancaran acara. Kehadiran kedua tokoh ini memperlihatkan sinergi yang kuat antara organisasi pendidikan dan pemerintah daerah dalam mendukung pengembangan potensi olahraga serta pembinaan karakter pelajar sejak usia dini di wilayah Kecamatan Amali-Soppeng.</p>
+                
+                <!-- Gambar 2 (setelah paragraf 2) - Orang penting -->
+                <div class="article-image">
+                    <img src="PGRI.jpeg" alt="Ketua PGRI Kecamatan Amali hadir dalam Turnamen Voli">
+                   <div class="image-caption">Ketua PGRI Kecamatan Amali memberikan apresiasi pada Turnamen Voli MTsS Yapit Taretta</div> 
+                </div>
+                
+                <!-- Paragraf 3 -->
+                <p> Turnamen ini diikuti oleh 12 tim kategori putri dan 16 tim kategori putra yang terdiri dari perwakilan SD dan MI se-Kecamatan Amali-Soppeng, serta dipandu oleh Wasit Provinsi, Bapak Burhan. Acara secara resmi dimulai dengan servis pertama sebagai tanda dibukanya pertandingan, yang dilakukan oleh Bapak Mulham Natsir, S.E. (Anggota DPRD Kabupaten Bone), kemudian dilanjutkan oleh Ketua PGRI Kecamatan Amali, serta Kepala Madrasah MTsS Yapit Taretta, Bapak Mustafa, S.Ag, M.Pd.. Dalam sambutannya, Bapak Mustafa menekankan pentingnya olahraga sebagai sarana membangun karakter, kebersamaan, dan jiwa sportivitas siswa sejak dini. Dukungan nyata juga diberikan oleh Ibu A. Besse Maisuri, S.Pd., Kepala Yayasan MTsS Yapit Taretta, melalui sumbangan dana (alhamdulillah).</p>
+                <p> Turnamen ini tidak hanya menjadi ajang kompetisi sehat antarsekolah, tetapi juga sebagai wadah pembinaan kerja sama tim dan penanaman nilai sportivitas di kalangan pelajar muda. Acara kemudian mencapai puncaknya dengan pembagian piala dan penghargaan kepada para juara, yang disambut tepuk tangan meriah dari seluruh peserta, pelatih, dan penonton. Kegiatan ini tidak hanya berhasil mencari juara, tetapi juga sukses mempererat tali silaturahmi antarsekolah, sekaligus meninggalkan kesan positif dan memacu semangat berolahraga di kalangan pelajar Kecamatan Amali-Soppeng.</p>
+            </div>
+        </article>
+        
+        <!-- Berita Lainnya (DISPERSEMBUNYIKAN) -->
+        
+    </div>
+
+    <!-- Footer dengan Logo -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <!-- Logo di dekat title footer -->
+                    <div class="footer-title-container">
+                        <div class="footer-logo">
+                            <img src="LOGO.jpeg" alt="Logo MTsS YAPIT Taretta">
+                        </div>
+                        <h3 class="footer-title">MADRASAH TSANAWIYAH SWASTA YAPIT TARETTA</h3>
+                    </div>
+                
+                    <div class="footer-address">
+                        Madrasah Tsanawiyah Swasta Yapit Taretta. Jl.Pendidikan<br>
+                        Kec. Amali, Kab.Bone, Prov. Sulawesi Selatan, 90126
+                    </div>
+                   
+                    <p style="margin-bottom: 15px;">Ikuti Kami Untuk Informasi Terbaru</p>
+                    <div class="social-icons">
+                        <a href="https://facebook.com/mtsyapit" target="_blank" class="social-icon fb" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://twitter.com/mtsyapit" target="_blank" class="social-icon tw" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://instagram.com/mtsyapit" target="_blank" class="social-icon ig" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://youtube.com/mtsyapit" target="_blank" class="social-icon yt" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-stats">
+                    <h3 class="footer-stats-title">STATISTIKA KUNJUNGAN</h3>
+                    <div class="stats-container">
+                        <div class="stat-box">
+                            <div class="stat-value" id="today-visitor">0</div>
+                            <div class="stat-label">Pengunjung Hari ini</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="week-visitor">0</div>
+                            <div class="stat-label">Pengunjung Minggu ini</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="month-visitor">0</div>
+                            <div class="stat-label">Pengunjung Bulan ini</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="total-visitor">0</div>
+                            <div class="stat-label">Total Pengunjung</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © Copyright 2025 – MTsS YAPIT TARETTA | Elizabet x Tiansi 
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sistem penghitung pengunjung otomatis
+        class VisitorCounter {
+            constructor() {
+                this.visitorData = this.getVisitorData();
+                this.sessionId = this.generateSessionId();
+                this.init();
+            }
+            
+            generateSessionId() {
+                return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            }
+            
+            getVisitorData() {
+                const today = new Date().toDateString();
+                const storedData = localStorage.getItem('mtsVisitorData');
+                
+                if (storedData) {
+                    const data = JSON.parse(storedData);
+                    
+                    // Reset jika sudah ganti hari
+                    if (data.lastVisitDate !== today) {
+                        this.resetDailyCounters(data, today);
+                    }
+                    
+                    return data;
+                } else {
+                    return {
+                        today: 0,
+                        week: 0,
+                        month: 0,
+                        total: 0,
+                        lastVisitDate: today,
+                        weekStartDate: this.getStartOfWeek(),
+                        monthStartDate: this.getStartOfMonth(),
+                        yearStartDate: this.getStartOfYear(),
+                        sessions: [],
+                        uniqueVisitors: []
+                    };
+                }
+            }
+            
+            resetDailyCounters(data, today) {
+                data.today = 0;
+                data.lastVisitDate = today;
+                
+                const weekStart = this.getStartOfWeek();
+                if (data.weekStartDate !== weekStart) {
+                    data.week = 0;
+                    data.weekStartDate = weekStart;
+                }
+                
+                const monthStart = this.getStartOfMonth();
+                if (data.monthStartDate !== monthStart) {
+                    data.month = 0;
+                    data.monthStartDate = monthStart;
+                }
+            }
+            
+            getStartOfWeek() {
+                const today = new Date();
+                const dayOfWeek = today.getDay();
+                const startOfWeek = new Date(today);
+                startOfWeek.setDate(today.getDate() - dayOfWeek);
+                return startOfWeek.toDateString();
+            }
+            
+            getStartOfMonth() {
+                const today = new Date();
+                return new Date(today.getFullYear(), today.getMonth(), 1).toDateString();
+            }
+            
+            getStartOfYear() {
+                const today = new Date();
+                return new Date(today.getFullYear(), 0, 1).toDateString();
+            }
+            
+            incrementVisitor() {
+                this.visitorData.sessions.push({
+                    id: this.sessionId,
+                    timestamp: new Date().toISOString()
+                });
+                
+                if (this.visitorData.sessions.length > 1000) {
+                    this.visitorData.sessions.shift();
+                }
+                
+                const visitorKey = this.getVisitorKey();
+                if (!this.visitorData.uniqueVisitors.includes(visitorKey)) {
+                    this.visitorData.uniqueVisitors.push(visitorKey);
+                    
+                    this.visitorData.today++;
+                    this.visitorData.week++;
+                    this.visitorData.month++;
+                    this.visitorData.total++;
+                    
+                    if (this.visitorData.uniqueVisitors.length > 10000) {
+                        this.visitorData.uniqueVisitors.shift();
+                    }
+                }
+                
+                localStorage.setItem('mtsVisitorData', JSON.stringify(this.visitorData));
+                this.updateDisplay();
+            }
+            
+            getVisitorKey() {
+                const today = new Date().toDateString();
+                const userAgent = navigator.userAgent;
+                const timeSlot = Math.floor(new Date().getHours() / 6);
+                
+                return `${today}_${timeSlot}_${userAgent.substring(0, 50)}`;
+            }
+            
+            updateDisplay() {
+                const formatNumber = (num) => {
+                    return num.toLocaleString('id-ID');
+                };
+                
+                const headerVisitor = document.getElementById('header-visitor');
+                const todayVisitor = document.getElementById('today-visitor');
+                const weekVisitor = document.getElementById('week-visitor');
+                const monthVisitor = document.getElementById('month-visitor');
+                const totalVisitor = document.getElementById('total-visitor');
+                
+                if (headerVisitor) headerVisitor.textContent = formatNumber(this.visitorData.total);
+                if (todayVisitor) todayVisitor.textContent = formatNumber(this.visitorData.today);
+                if (weekVisitor) weekVisitor.textContent = formatNumber(this.visitorData.week);
+                if (monthVisitor) monthVisitor.textContent = formatNumber(this.visitorData.month);
+                if (totalVisitor) totalVisitor.textContent = formatNumber(this.visitorData.total);
+            }
+            
+            init() {
+                this.incrementVisitor();
+                
+                setInterval(() => {
+                    if (Math.random() < 0.2) {
+                        this.incrementVisitor();
+                    }
+                }, 30000);
+            }
+        }
+        
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            const visitorCounter = new VisitorCounter();
+            
+            // Efek hover pada sosial media
+            const socialMediaLinks = document.querySelectorAll('.social-media-header a, .social-icon');
+            socialMediaLinks.forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.1)';
+                });
+                
+                link.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Efek hover pada gambar artikel
+            const articleImages = document.querySelectorAll('.article-image');
+            articleImages.forEach(image => {
+                image.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+                });
+                
+                image.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+            
+            // Tombol survey
+            const surveyBtn = document.querySelector('.survey-btn');
+            surveyBtn.addEventListener('click', function() {
+                alert('Terima kasih! Anda akan diarahkan ke halaman survey.');
+            });
+            
+            // Tombol search
+            const searchBtn = document.querySelector('.search-btn');
+            const searchBox = document.querySelector('.search-box');
+            
+            searchBtn.addEventListener('click', function() {
+                if (searchBox.value.trim() === '') {
+                    alert('Masukkan kata kunci pencarian!');
+                    searchBox.focus();
+                } else {
+                    alert(`Mencari: "${searchBox.value}"`);
+                }
+            });
+            
+            // Enter key untuk search box
+            searchBox.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchBtn.click();
+                }
+            });
+            
+            // Klik pada sosial media
+            document.querySelectorAll('.social-media-header a, .social-icon').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const platform = this.getAttribute('title');
+                    alert(`Anda akan dibawa ke ${platform} MTsS Yapit Taretta`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
