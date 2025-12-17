@@ -665,7 +665,7 @@
                 </div>
                 
                 <div class="visitor-counter">
-                    <i class="fas fa-users"></i> <span id="header-visitor">0</span>
+                    <i class="fas fa-users"></i> <span id="header-visitor">16,376,431</span>
                 </div>
             </div>
         </div>
@@ -811,404 +811,150 @@
     </footer>
 
     <script>
-        // Sistem penghitung pengunjung dengan perhitungan tahunan berdasarkan akumulasi
-        class AnnualVisitorCounter {
+        // Sistem penghitung pengunjung otomatis
+        class VisitorCounter {
             constructor() {
-                // Kunci untuk localStorage
-                this.STORAGE_KEYS = {
-                    VISITOR_ID: 'mts_visitor_id',
-                    LAST_VISIT: 'mts_last_visit',
-                    VISITOR_DATA: 'mts_visitor_stats',
-                    TODAY_VISITORS: 'mts_today_visitors',
-                    WEEK_VISITORS: 'mts_week_visitors',
-                    MONTH_VISITORS: 'mts_month_visitors',
-                    YEAR_VISITORS: 'mts_year_visitors',
-                    DAILY_HISTORY: 'mts_daily_history',
-                    YEARLY_TOTAL: 'mts_yearly_total'
-                };
-                
-                // Inisialisasi
+                this.visitorData = this.getVisitorData();
+                this.sessionId = this.generateSessionId();
                 this.init();
             }
             
-            init() {
-                // Pastikan semua data ada
-                this.initializeData();
-                
-                // Hitung kunjungan untuk pengunjung saat ini
-                this.countVisit();
-                
-                // Tampilkan data
-                this.updateDisplay();
-                
-                // Mulai simulasi kunjungan dari pengguna lain
-                this.startSimulation();
+            generateSessionId() {
+                return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             }
             
-            initializeData() {
-                const now = new Date();
-                const today = now.toDateString();
-                const weekStart = this.getWeekStart().toDateString();
-                const monthStart = this.getMonthStart().toDateString();
-                const yearStart = this.getYearStart().toDateString();
-                const currentYear = now.getFullYear();
+            getVisitorData() {
+                const today = new Date().toDateString();
+                const storedData = localStorage.getItem('mtsVisitorData');
                 
-                // Inisialisasi data pengunjung harian
-                let todayData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.TODAY_VISITORS) || '{}');
-                if (todayData.date !== today) {
-                    // Simpan data hari sebelumnya ke histori harian sebelum direset
-                    if (todayData.date && todayData.count > 0) {
-                        this.saveToDailyHistory(todayData.date, todayData.count);
-                    }
-                    todayData = { date: today, count: 0, visitors: [] };
-                }
-                localStorage.setItem(this.STORAGE_KEYS.TODAY_VISITORS, JSON.stringify(todayData));
-                
-                // Inisialisasi data mingguan
-                let weekData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.WEEK_VISITORS) || '{}');
-                if (weekData.date !== weekStart) {
-                    weekData = { date: weekStart, count: 0 };
-                }
-                localStorage.setItem(this.STORAGE_KEYS.WEEK_VISITORS, JSON.stringify(weekData));
-                
-                // Inisialisasi data bulanan
-                let monthData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.MONTH_VISITORS) || '{}');
-                if (monthData.date !== monthStart) {
-                    monthData = { date: monthStart, count: 0 };
-                }
-                localStorage.setItem(this.STORAGE_KEYS.MONTH_VISITORS, JSON.stringify(monthData));
-                
-                // Inisialisasi data tahunan
-                let yearData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.YEAR_VISITORS) || '{}');
-                if (yearData.date !== yearStart) {
-                    // Hitung total tahun sebelumnya sebelum direset
-                    if (yearData.date && yearData.count > 0) {
-                        this.saveYearlyTotal(currentYear - 1, yearData.count);
-                    }
-                    yearData = { date: yearStart, count: 0 };
-                }
-                localStorage.setItem(this.STORAGE_KEYS.YEAR_VISITORS, JSON.stringify(yearData));
-                
-                // Inisialisasi data total (tahun ini + tahun-tahun sebelumnya)
-                let totalData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.VISITOR_DATA) || '{}');
-                if (!totalData.yearlyTotals || !totalData.currentYear || totalData.currentYear !== currentYear) {
-                    // Hitung total dari semua tahun
-                    const yearlyTotals = this.calculateAllYearlyTotals();
-                    const grandTotal = this.calculateGrandTotal(yearlyTotals);
+                if (storedData) {
+                    const data = JSON.parse(storedData);
                     
-                    totalData = {
-                        today: todayData.count || 0,
-                        week: weekData.count || 0,
-                        month: monthData.count || 0,
-                        year: yearData.count || 0,
-                        total: grandTotal,
-                        currentYear: currentYear,
-                        yearlyTotals: yearlyTotals,
-                        lastUpdate: now.toISOString()
+                    // Reset jika sudah ganti hari
+                    if (data.lastVisitDate !== today) {
+                        this.resetDailyCounters(data, today);
+                    }
+                    
+                    return data;
+                } else {
+                    return {
+                        today: 0,
+                        week: 0,
+                        month: 0,
+                        total: 0,
+                        lastVisitDate: today,
+                        weekStartDate: this.getStartOfWeek(),
+                        monthStartDate: this.getStartOfMonth(),
+                        yearStartDate: this.getStartOfYear(),
+                        sessions: [],
+                        uniqueVisitors: []
                     };
                 }
-                localStorage.setItem(this.STORAGE_KEYS.VISITOR_DATA, JSON.stringify(totalData));
             }
             
-            getWeekStart() {
-                const now = new Date();
-                const day = now.getDay();
-                const diff = now.getDate() - day + (day === 0 ? -6 : 1); // Senin sebagai awal minggu
-                return new Date(now.setDate(diff));
-            }
-            
-            getMonthStart() {
-                const now = new Date();
-                return new Date(now.getFullYear(), now.getMonth(), 1);
-            }
-            
-            getYearStart() {
-                const now = new Date();
-                return new Date(now.getFullYear(), 0, 1).toDateString();
-            }
-            
-            getOrCreateVisitorId() {
-                let visitorId = localStorage.getItem(this.STORAGE_KEYS.VISITOR_ID);
-                if (!visitorId) {
-                    visitorId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                    localStorage.setItem(this.STORAGE_KEYS.VISITOR_ID, visitorId);
-                }
-                return visitorId;
-            }
-            
-            saveToDailyHistory(date, count) {
-                let dailyHistory = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.DAILY_HISTORY) || '{}');
-                dailyHistory[date] = count;
+            resetDailyCounters(data, today) {
+                data.today = 0;
+                data.lastVisitDate = today;
                 
-                // Simpan maksimal 365 hari
-                const dates = Object.keys(dailyHistory);
-                if (dates.length > 365) {
-                    const oldestDate = dates.sort()[0];
-                    delete dailyHistory[oldestDate];
+                const weekStart = this.getStartOfWeek();
+                if (data.weekStartDate !== weekStart) {
+                    data.week = 0;
+                    data.weekStartDate = weekStart;
                 }
                 
-                localStorage.setItem(this.STORAGE_KEYS.DAILY_HISTORY, JSON.stringify(dailyHistory));
-            }
-            
-            saveYearlyTotal(year, total) {
-                let yearlyTotal = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.YEARLY_TOTAL) || '{}');
-                yearlyTotal[year] = total;
-                localStorage.setItem(this.STORAGE_KEYS.YEARLY_TOTAL, JSON.stringify(yearlyTotal));
-            }
-            
-            calculateAllYearlyTotals() {
-                const yearlyTotal = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.YEARLY_TOTAL) || '{}');
-                const currentYear = new Date().getFullYear();
-                
-                // Tambahkan tahun ini jika belum ada
-                if (!yearlyTotal[currentYear]) {
-                    yearlyTotal[currentYear] = 0;
+                const monthStart = this.getStartOfMonth();
+                if (data.monthStartDate !== monthStart) {
+                    data.month = 0;
+                    data.monthStartDate = monthStart;
                 }
-                
-                // Tambahkan data tahun-tahun sebelumnya untuk simulasi
-                const years = [2023, 2024];
-                years.forEach(year => {
-                    if (!yearlyTotal[year]) {
-                        yearlyTotal[year] = this.generateHistoricalData(year);
-                    }
+            }
+            
+            getStartOfWeek() {
+                const today = new Date();
+                const dayOfWeek = today.getDay();
+                const startOfWeek = new Date(today);
+                startOfWeek.setDate(today.getDate() - dayOfWeek);
+                return startOfWeek.toDateString();
+            }
+            
+            getStartOfMonth() {
+                const today = new Date();
+                return new Date(today.getFullYear(), today.getMonth(), 1).toDateString();
+            }
+            
+            getStartOfYear() {
+                const today = new Date();
+                return new Date(today.getFullYear(), 0, 1).toDateString();
+            }
+            
+            incrementVisitor() {
+                this.visitorData.sessions.push({
+                    id: this.sessionId,
+                    timestamp: new Date().toISOString()
                 });
                 
-                return yearlyTotal;
-            }
-            
-            generateHistoricalData(year) {
-                // Generate data historis realistis berdasarkan tahun
-                const currentYear = new Date().getFullYear();
-                const yearDiff = currentYear - year;
-                
-                // Semakin lama tahunnya, semakin banyak pengunjung (simulasi)
-                const baseVisitors = 5000000; // 5 juta pengunjung dasar per tahun
-                const growthFactor = 1.3; // Pertumbuhan 30% per tahun
-                
-                return Math.floor(baseVisitors * Math.pow(growthFactor, yearDiff));
-            }
-            
-            calculateGrandTotal(yearlyTotals) {
-                let total = 0;
-                for (const year in yearlyTotals) {
-                    total += yearlyTotals[year];
-                }
-                return total;
-            }
-            
-            countVisit() {
-                const visitorId = this.getOrCreateVisitorId();
-                const now = new Date();
-                const today = now.toDateString();
-                const currentYear = now.getFullYear();
-                
-                // Ambil semua data
-                let todayData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.TODAY_VISITORS));
-                let weekData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.WEEK_VISITORS));
-                let monthData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.MONTH_VISITORS));
-                let yearData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.YEAR_VISITORS));
-                let totalData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.VISITOR_DATA));
-                
-                // Periksa apakah pengunjung ini sudah dihitung hari ini
-                if (!todayData.visitors.includes(visitorId)) {
-                    // Tambahkan pengunjung baru ke semua periode
-                    todayData.visitors.push(visitorId);
-                    todayData.count++;
-                    weekData.count++;
-                    monthData.count++;
-                    yearData.count++;
-                    
-                    // Update data total
-                    totalData.today = todayData.count;
-                    totalData.week = weekData.count;
-                    totalData.month = monthData.count;
-                    totalData.year = yearData.count;
-                    
-                    // Update total tahunan
-                    if (totalData.yearlyTotals[currentYear] !== undefined) {
-                        totalData.yearlyTotals[currentYear] = yearData.count;
-                    }
-                    
-                    // Hitung ulang grand total
-                    totalData.total = this.calculateGrandTotal(totalData.yearlyTotals);
-                    totalData.lastUpdate = now.toISOString();
-                    
-                    // Simpan perubahan
-                    localStorage.setItem(this.STORAGE_KEYS.TODAY_VISITORS, JSON.stringify(todayData));
-                    localStorage.setItem(this.STORAGE_KEYS.WEEK_VISITORS, JSON.stringify(weekData));
-                    localStorage.setItem(this.STORAGE_KEYS.MONTH_VISITORS, JSON.stringify(monthData));
-                    localStorage.setItem(this.STORAGE_KEYS.YEAR_VISITORS, JSON.stringify(yearData));
-                    localStorage.setItem(this.STORAGE_KEYS.VISITOR_DATA, JSON.stringify(totalData));
-                    
-                    // Simpan waktu kunjungan terakhir
-                    localStorage.setItem(this.STORAGE_KEYS.LAST_VISIT, now.toISOString());
-                    
-                    return true;
+                if (this.visitorData.sessions.length > 1000) {
+                    this.visitorData.sessions.shift();
                 }
                 
-                return false;
-            }
-            
-            simulateOtherVisitors() {
-                const now = new Date();
-                const lastUpdate = localStorage.getItem('mts_last_simulation') || now.toISOString();
-                const lastUpdateTime = new Date(lastUpdate);
-                const minutesSinceLastUpdate = (now - lastUpdateTime) / (1000 * 60);
-                
-                // Jika sudah lebih dari 3 menit sejak simulasi terakhir, tambahkan pengunjung
-                if (minutesSinceLastUpdate > 3) {
-                    const increment = Math.floor(Math.random() * 3) + 1; // 1-3 pengunjung
+                const visitorKey = this.getVisitorKey();
+                if (!this.visitorData.uniqueVisitors.includes(visitorKey)) {
+                    this.visitorData.uniqueVisitors.push(visitorKey);
                     
-                    // Update semua data
-                    let totalData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.VISITOR_DATA));
-                    let todayData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.TODAY_VISITORS));
-                    let weekData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.WEEK_VISITORS));
-                    let monthData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.MONTH_VISITORS));
-                    let yearData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.YEAR_VISITORS));
+                    this.visitorData.today++;
+                    this.visitorData.week++;
+                    this.visitorData.month++;
+                    this.visitorData.total++;
                     
-                    // Tambahkan pengunjung acak
-                    for (let i = 0; i < increment; i++) {
-                        const randomVisitorId = 'simulated_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                        
-                        if (!todayData.visitors.includes(randomVisitorId)) {
-                            todayData.visitors.push(randomVisitorId);
-                            todayData.count++;
-                            weekData.count++;
-                            monthData.count++;
-                            yearData.count++;
-                        }
+                    if (this.visitorData.uniqueVisitors.length > 10000) {
+                        this.visitorData.uniqueVisitors.shift();
                     }
-                    
-                    // Update data total
-                    totalData.today = todayData.count;
-                    totalData.week = weekData.count;
-                    totalData.month = monthData.count;
-                    totalData.year = yearData.count;
-                    
-                    // Update total tahunan
-                    const currentYear = new Date().getFullYear();
-                    if (totalData.yearlyTotals[currentYear] !== undefined) {
-                        totalData.yearlyTotals[currentYear] = yearData.count;
-                    }
-                    
-                    // Hitung ulang grand total
-                    totalData.total = this.calculateGrandTotal(totalData.yearlyTotals);
-                    totalData.lastUpdate = now.toISOString();
-                    
-                    // Simpan data
-                    localStorage.setItem(this.STORAGE_KEYS.VISITOR_DATA, JSON.stringify(totalData));
-                    localStorage.setItem(this.STORAGE_KEYS.TODAY_VISITORS, JSON.stringify(todayData));
-                    localStorage.setItem(this.STORAGE_KEYS.WEEK_VISITORS, JSON.stringify(weekData));
-                    localStorage.setItem(this.STORAGE_KEYS.MONTH_VISITORS, JSON.stringify(monthData));
-                    localStorage.setItem(this.STORAGE_KEYS.YEAR_VISITORS, JSON.stringify(yearData));
-                    localStorage.setItem('mts_last_simulation', now.toISOString());
-                    
-                    // Update tampilan
-                    this.updateDisplay();
-                    
-                    return increment;
                 }
                 
-                return 0;
+                localStorage.setItem('mtsVisitorData', JSON.stringify(this.visitorData));
+                this.updateDisplay();
             }
             
-            getStats() {
-                const totalData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.VISITOR_DATA) || '{}');
-                const todayData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.TODAY_VISITORS) || '{"count":0}');
-                const weekData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.WEEK_VISITORS) || '{"count":0}');
-                const monthData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.MONTH_VISITORS) || '{"count":0}');
-                const yearData = JSON.parse(localStorage.getItem(this.STORAGE_KEYS.YEAR_VISITORS) || '{"count":0}');
+            getVisitorKey() {
+                const today = new Date().toDateString();
+                const userAgent = navigator.userAgent;
+                const timeSlot = Math.floor(new Date().getHours() / 6);
                 
-                return {
-                    today: todayData.count || 0,
-                    week: weekData.count || 0,
-                    month: monthData.count || 0,
-                    year: yearData.count || 0,
-                    total: totalData.total || 0
-                };
-            }
-            
-            animateCounter(element, targetValue, duration = 1500) {
-                const currentValue = parseInt(element.textContent.replace(/,/g, '')) || 0;
-                
-                // Jika nilai sama, tidak perlu animasi
-                if (currentValue === targetValue) return;
-                
-                const steps = 60;
-                const stepValue = (targetValue - currentValue) / steps;
-                let step = 0;
-                
-                // Hentikan animasi sebelumnya jika ada
-                if (element.animationTimer) {
-                    clearInterval(element.animationTimer);
-                }
-                
-                element.animationTimer = setInterval(() => {
-                    step++;
-                    const newValue = Math.floor(currentValue + (stepValue * step));
-                    
-                    if (step >= steps) {
-                        element.textContent = targetValue.toLocaleString('id-ID');
-                        clearInterval(element.animationTimer);
-                        element.animationTimer = null;
-                    } else {
-                        element.textContent = newValue.toLocaleString('id-ID');
-                    }
-                }, duration / steps);
+                return `${today}_${timeSlot}_${userAgent.substring(0, 50)}`;
             }
             
             updateDisplay() {
-                const stats = this.getStats();
-                
-                // Update semua counter
-                const elements = {
-                    'header-visitor': stats.total,
-                    'today-visitor': stats.today,
-                    'week-visitor': stats.week,
-                    'month-visitor': stats.month,
-                    'total-visitor': stats.total
+                const formatNumber = (num) => {
+                    return num.toLocaleString('id-ID');
                 };
                 
-                for (const [id, value] of Object.entries(elements)) {
-                    const element = document.getElementById(id);
-                    if (element) {
-                        const currentValue = parseInt(element.textContent.replace(/,/g, '')) || 0;
-                        
-                        if (currentValue !== value) {
-                            this.animateCounter(element, value);
-                        } else if (!element.dataset.initialized) {
-                            element.textContent = value.toLocaleString('id-ID');
-                            element.dataset.initialized = 'true';
-                        }
-                    }
-                }
+                const headerVisitor = document.getElementById('header-visitor');
+                const todayVisitor = document.getElementById('today-visitor');
+                const weekVisitor = document.getElementById('week-visitor');
+                const monthVisitor = document.getElementById('month-visitor');
+                const totalVisitor = document.getElementById('total-visitor');
                 
-                // Tampilkan informasi tambahan di console (opsional)
-                console.log(`Statistik Kunjungan:
-                - Hari ini: ${stats.today.toLocaleString('id-ID')}
-                - Minggu ini: ${stats.week.toLocaleString('id-ID')}
-                - Bulan ini: ${stats.month.toLocaleString('id-ID')}
-                - Tahun ini: ${stats.year.toLocaleString('id-ID')}
-                - Total: ${stats.total.toLocaleString('id-ID')}`);
+                if (headerVisitor) headerVisitor.textContent = formatNumber(this.visitorData.total);
+                if (todayVisitor) todayVisitor.textContent = formatNumber(this.visitorData.today);
+                if (weekVisitor) weekVisitor.textContent = formatNumber(this.visitorData.week);
+                if (monthVisitor) monthVisitor.textContent = formatNumber(this.visitorData.month);
+                if (totalVisitor) totalVisitor.textContent = formatNumber(this.visitorData.total);
             }
             
-            startSimulation() {
-                // Simulasi kunjungan dari pengguna lain
-                setInterval(() => {
-                    this.simulateOtherVisitors();
-                }, 20000); // Cek setiap 20 detik
+            init() {
+                this.incrementVisitor();
                 
-                // Update tampilan secara berkala
                 setInterval(() => {
-                    this.updateDisplay();
-                }, 8000); // Update setiap 8 detik
+                    if (Math.random() < 0.2) {
+                        this.incrementVisitor();
+                    }
+                }, 30000);
             }
         }
         
         // Inisialisasi saat halaman dimuat
         document.addEventListener('DOMContentLoaded', function() {
-            // Inisialisasi counter pengunjung
-            const visitorCounter = new AnnualVisitorCounter();
+            const visitorCounter = new VisitorCounter();
             
             // Efek hover pada sosial media
             const socialMediaLinks = document.querySelectorAll('.social-media-header a, .social-icon');
@@ -1268,18 +1014,6 @@
                     e.preventDefault();
                     const platform = this.getAttribute('title');
                     alert(`Anda akan dibawa ke ${platform} MTsS Yapit Taretta`);
-                });
-            });
-            
-            // Animasi untuk stat box
-            const statBoxes = document.querySelectorAll('.stat-box');
-            statBoxes.forEach(box => {
-                box.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-3px)';
-                });
-                
-                box.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
                 });
             });
         });
